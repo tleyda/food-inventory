@@ -28,6 +28,7 @@ const UNITS = [
     { key: "ml", label: "Milliliters" },
     { key: "oz", label: "Ounces" },
     { key: "lb", label: "Pounds" },
+    { key: "gal", label: "Gallons" },
     { key: "box", label: "Box" },
     { key: "can", label: "Can" }
 ];
