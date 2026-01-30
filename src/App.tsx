@@ -38,7 +38,7 @@ function Home() {
         <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
           Food Inventory
         </h1>
-        <Button color="primary" endContent={<Plus />} onPress={handleAdd} className="font-semibold shadow-lg shadow-blue-500/40">
+        <Button color="primary" variant="solid" endContent={<Plus />} onPress={handleAdd} className="font-semibold shadow-lg shadow-blue-500/40">
           Add Item
         </Button>
       </div>
@@ -73,7 +73,8 @@ function App() {
 
   return (
     <HeroUIProvider navigate={navigate}>
-      <main className="dark text-foreground bg-background min-h-screen p-4 sm:p-6 bg-[url('https://heroui.com/gradients/docs-right.png')] bg-cover bg-fixed">
+      {/* <main className="dark text-foreground bg-background min-h-screen p-4 sm:p-6 bg-cover bg-fixed"> */}
+      <main>
         <Routes>
           <Route path="/" element={<Home />} />
         </Routes>
