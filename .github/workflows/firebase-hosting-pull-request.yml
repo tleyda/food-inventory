@@ -13,10 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: yarn ci
+      - name: Install dependencies
+        run: yarn ci
       - name: Run unit tests
         run: yarn test:coverage
-      - run: yarn build
+      - name: Build
+        run: yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
