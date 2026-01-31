@@ -77,7 +77,7 @@ export function ItemModal({ isOpen, onOpenChange, onSave, item }: ItemModalProps
     console.log("ItemModal", { isOpen });
 
     return (
-        <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top" size="sm">
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center" size="sm">
             <ModalContent>
                 {(onClose) => (
                     <>
