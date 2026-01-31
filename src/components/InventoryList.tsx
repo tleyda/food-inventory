@@ -52,12 +52,20 @@ export function InventoryList({ items, onEdit, onDelete }: InventoryListProps) {
                 return (
                     <div className="relative flex items-center gap-2">
                         <Tooltip content="Edit item">
-                            <span className="text-lg text-default-400 cursor-pointer active:opacity-50" onClick={() => onEdit(item)}>
+                            <span 
+                                data-testid={`edit-button-${item.id}`}
+                                className="text-lg text-default-400 cursor-pointer active:opacity-50" 
+                                onClick={() => onEdit(item)}
+                            >
                                 <Edit size={18} />
                             </span>
                         </Tooltip>
                         <Tooltip color="danger" content="Delete item">
-                            <span className="text-lg text-danger cursor-pointer active:opacity-50" onClick={() => onDelete(item.id)}>
+                            <span 
+                                data-testid={`delete-button-${item.id}`}
+                                className="text-lg text-danger cursor-pointer active:opacity-50" 
+                                onClick={() => onDelete(item.id)}
+                            >
                                 <Trash2 size={18} />
                             </span>
                         </Tooltip>
