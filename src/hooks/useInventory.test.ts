@@ -32,7 +32,7 @@ describe('useInventory', () => {
       { id: '2', name: 'Milk', quantity: 2, unit: 'L' },
     ];
 
-    (onSnapshot as any).mockImplementation((query: any, callback: any) => {
+    (onSnapshot as any).mockImplementation((_: any, callback: any) => {
       callback({
         docs: mockItems.map(item => ({
           id: item.id,
