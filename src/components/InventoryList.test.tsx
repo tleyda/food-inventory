@@ -38,7 +38,6 @@ describe('InventoryList', () => {
         const editButton = screen.getByTestId('edit-button-1');
         fireEvent.click(editButton);
         expect(mockOnEdit).toHaveBeenCalledWith(mockItems[0]);
-        expect(false).toBe(true);
     });
 
     it('should call onDelete when delete icon is clicked', () => {
