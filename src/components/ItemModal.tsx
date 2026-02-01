@@ -1,6 +1,7 @@
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Select, SelectItem } from "@heroui/react";
 import { useState, useEffect } from "react";
 import type { InventoryItem } from "../types";
+import { useTags } from "../hooks/useTags";
 
 interface ItemModalProps {
     isOpen: boolean;
@@ -34,10 +35,12 @@ const UNITS = [
 ];
 
 export function ItemModal({ isOpen, onOpenChange, onSave, item }: ItemModalProps) {
+    const { tags: availableTags } = useTags();
     const [name, setName] = useState("");
     const [quantity, setQuantity] = useState("1");
     const [category, setCategory] = useState<string>("Pantry");
     const [unit, setUnit] = useState<string>("pcs");
+    const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -47,11 +50,13 @@ export function ItemModal({ isOpen, onOpenChange, onSave, item }: ItemModalProps
                 setQuantity(item.quantity.toString());
                 setCategory(item.category);
                 setUnit(item.unit);
+                setSelectedTags(item.tags || []);
             } else {
                 setName("");
                 setQuantity("1");
                 setCategory("Pantry");
                 setUnit("pcs");
+                setSelectedTags([]);
             }
         }
     }, [item, isOpen]);
@@ -64,7 +69,8 @@ export function ItemModal({ isOpen, onOpenChange, onSave, item }: ItemModalProps
                 name,
                 quantity: parseFloat(quantity) || 0,
                 category,
-                unit
+                unit,
+                tags: selectedTags,
             });
             onOpenChange(false);
         } catch (error) {
@@ -121,6 +127,26 @@ export function ItemModal({ isOpen, onOpenChange, onSave, item }: ItemModalProps
                             >
                                 {CATEGORIES.map((c) => (
                                     <SelectItem key={c.key}>{c.label}</SelectItem>
+                                ))}
+                            </Select>
+                            <Select
+                                label="Tags"
+                                variant="bordered"
+                                selectionMode="multiple"
+                                placeholder="Select tags"
+                                selectedKeys={new Set(selectedTags)}
+                                onSelectionChange={(keys) => setSelectedTags(Array.from(keys) as string[])}
+                            >
+                                {availableTags.map((tag) => (
+                                    <SelectItem key={tag.id} textValue={tag.label}>
+                                        <div className="flex items-center gap-2">
+                                            <div 
+                                                className="w-2 h-2 rounded-full" 
+                                                style={{ backgroundColor: tag.color }} 
+                                            />
+                                            <span>{tag.label}</span>
+                                        </div>
+                                    </SelectItem>
                                 ))}
                             </Select>
                         </ModalBody>

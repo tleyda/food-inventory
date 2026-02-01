@@ -1,10 +1,12 @@
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Tooltip, Chip } from "@heroui/react";
 import { Edit, Trash2 } from "lucide-react";
-import type { InventoryItem } from "../types";
+import type { InventoryItem, ItemTags } from "../types";
 import React from "react";
+import { rgba } from "framer-motion";
 
 interface InventoryListProps {
     items: InventoryItem[];
+    availableTags: ItemTags[];
     onEdit: (item: InventoryItem) => void;
     onDelete: (id: string) => void;
 }
@@ -13,6 +15,7 @@ const columns = [
     { name: "NAME", uid: "name" },
     { name: "QTY", uid: "quantity" },
     { name: "CATEGORY", uid: "category" },
+    { name: "TAGS", uid: "tags" },
     { name: "ACTIONS", uid: "actions" },
 ];
 
@@ -26,8 +29,9 @@ const categoryColorMap: Record<string, "default" | "primary" | "secondary" | "su
     Snacks: "warning",
     Household: "default",
 };
+export function InventoryList({ items, availableTags, onEdit, onDelete }: InventoryListProps) {
+    console.log("availableTags", availableTags);
 
-export function InventoryList({ items, onEdit, onDelete }: InventoryListProps) {
     const renderCell = React.useCallback((item: InventoryItem, columnKey: React.Key) => {
         switch (columnKey) {
             case "name":
@@ -47,6 +51,31 @@ export function InventoryList({ items, onEdit, onDelete }: InventoryListProps) {
                     <Chip className="capitalize" size="sm" variant="flat" color={categoryColorMap[item.category] || "default"}>
                         {item.category}
                     </Chip>
+                );
+            case "tags":
+                return (
+                    <div className="flex flex-wrap gap-1">
+                        {item.tags?.map(tagId => {
+                            const tag = availableTags.find(t => t.id === tagId);
+                            console.log("Tag", { tagId, tag });
+                            if (!tag) return null;
+                            return (
+                                <Chip 
+                                    key={tagId} 
+                                    size="sm" 
+                                    variant="flat" 
+                                    style={{ 
+                                        background: `${tag.color}10`,
+                                        color: tag.color,
+                                        borderColor: tag.color,
+                                    }}
+                                    className="border"
+                                >
+                                    {tag.label}
+                                </Chip>
+                            );
+                        })}
+                    </div>
                 );
             case "actions":
                 return (
@@ -74,7 +103,7 @@ export function InventoryList({ items, onEdit, onDelete }: InventoryListProps) {
             default:
                 return null;
         }
-    }, [onEdit, onDelete]);
+    }, [onEdit, onDelete, availableTags]);
 
     return (
         <Table aria-label="Inventory table">
