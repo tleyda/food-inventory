@@ -2,7 +2,6 @@ import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Toolti
 import { Edit, Trash2 } from "lucide-react";
 import type { InventoryItem, ItemTags } from "../types";
 import React from "react";
-import { rgba } from "framer-motion";
 
 interface InventoryListProps {
     items: InventoryItem[];
