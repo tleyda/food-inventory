@@ -11,9 +11,12 @@ const firebaseConfig = {
     appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
+import { getAuth } from "firebase/auth";
+
 const app = initializeApp(firebaseConfig);
 const db = initializeFirestore(app, {
     localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
 });
+const auth = getAuth(app);
 
-export { app, db };
+export { app, db, auth };
