@@ -2,6 +2,7 @@ import { HeroUIProvider, Button, useDisclosure } from "@heroui/react";
 import { Plus } from "lucide-react";
 import { useNavigate, Routes, Route } from "react-router-dom";
 import { useInventory } from "./hooks/useInventory";
+import { useTags } from "./hooks/useTags";
 import { InventoryList } from "./components/InventoryList";
 import { ItemModal } from "./components/ItemModal";
 import type { InventoryItem } from "./types";
@@ -9,6 +10,7 @@ import { useState } from "react";
 
 function Home() {
   const { items, loading, addItem, updateItem, deleteItem } = useInventory();
+  const { tags: availableTags, loading: tagsLoading } = useTags();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [editingItem, setEditingItem] = useState<InventoryItem | undefined>(undefined);
   console.log("Home page");
@@ -45,13 +47,14 @@ function Home() {
 
       <div className="bg-content1 rounded-xl shadow-sm p-2">
         {/* Simple loading state */}
-        {loading ? (
+        {loading || tagsLoading ? (
           <div className="flex justify-center p-8">
             <p className="text-default-400">Loading inventory...</p>
           </div>
         ) : (
           <InventoryList
             items={items}
+            availableTags={availableTags}
             onEdit={handleEdit}
             onDelete={deleteItem}
           />
