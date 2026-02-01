@@ -31,7 +31,7 @@ describe('useTags', () => {
       { id: '2', label: 'Low Stock', color: '#ffff00' },
     ];
 
-    (onSnapshot as any).mockImplementation((query: any, callback: any) => {
+    (onSnapshot as any).mockImplementation((_: any, callback: any) => {
       callback({
         docs: mockTags.map(tag => ({
           id: tag.id,
