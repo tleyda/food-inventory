@@ -6,6 +6,7 @@ import { useTags } from "./hooks/useTags";
 import { InventoryList } from "./components/InventoryList";
 import { ItemModal } from "./components/ItemModal";
 import { Login } from "./components/Login";
+import { AppNavbar } from "./components/Navbar";
 import type { InventoryItem } from "./types";
 import { useState } from "react";
 
@@ -14,7 +15,6 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 function Home() {
   const { items, loading, addItem, updateItem, deleteItem } = useInventory();
   const { tags: availableTags, loading: tagsLoading } = useTags();
-  const { currentUser, logout } = useAuth();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [editingItem, setEditingItem] = useState<InventoryItem | undefined>(undefined);
 
@@ -38,21 +38,16 @@ function Home() {
 
   return (
     <div className="flex flex-col gap-6 max-w-4xl mx-auto w-full p-4">
-      <div className="flex justify-between items-center bg-content1 p-4 rounded-xl shadow-sm">
-        <div className="flex flex-col">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
-            Food Inventory
-          </h1>
-          {currentUser && <p className="text-xs text-default-400">Signed in as {currentUser.email}</p>}
-        </div>
-        <div className="flex gap-2">
-          <Button color="secondary" variant="flat" onPress={logout} size="sm">
-            Logout
-          </Button>
-          <Button color="primary" variant="solid" endContent={<Plus />} onPress={handleAdd} className="font-semibold shadow-lg shadow-blue-500/40">
-            Add Item
-          </Button>
-        </div>
+      <div className="flex justify-end">
+        <Button 
+          color="primary" 
+          variant="solid" 
+          endContent={<Plus />} 
+          onPress={handleAdd} 
+          className="font-semibold shadow-lg shadow-blue-500/40"
+        >
+          Add Item
+        </Button>
       </div>
 
       <div className="bg-content1 rounded-xl shadow-sm p-2">
@@ -108,6 +103,7 @@ function App() {
   return (
     <AuthProvider>
       <HeroUIProvider navigate={navigate}>
+        <AppNavbar />
         <main>
           <Main />
         </main>
